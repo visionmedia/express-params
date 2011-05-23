@@ -49,5 +49,36 @@ module.exports = {
     assert.response(app,
       { url: '/error/hey' },
       { status: 500 });
+  },
+  
+  'regexp': function(){
+    var app = express.createServer();
+    params.extend(app);
+
+    app.param('range', /^(\w+)\.\.(\w+)?$/);
+
+    app.get('/range/:range', function(req, res, next){
+      var range = req.params.range;
+      res.send('from ' + range[1] + ' to ' + range[2]);
+    });
+
+    app.param('username', /^[a-z_]+$/);
+
+    app.get('/user/:username', function(req, res, next){
+      var username = req.params.username;
+      res.send('user ' + username);
+    });
+
+    assert.response(app,
+      { url: '/user/tj' },
+      { body: 'user tj' });
+
+    assert.response(app,
+      { url: '/user/23' },
+      { status: 404 });
+
+    assert.response(app,
+      { url: '/range/1..5' },
+      { body: 'from 1 to 5' });
   }
 }
