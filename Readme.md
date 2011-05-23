@@ -1,7 +1,46 @@
 
 # express-params
 
-  Express param functions
+  Express param functions.
+
+## RegExp
+
+  Regular expressions can be used to extract data from pathname
+  segments as shown below. When matched `req.params.range` contains
+  the capture groups of the `regexp.exec()` call.
+
+    app.param('range', /^(\w+)\.\.(\w+)?$/);
+
+    app.get('/range/:range', function(req, res, next){
+      var range = req.params.range;
+      res.send('from ' + range[1] + ' to ' + range[2]);
+    });
+
+  Another use-case for regular expression parameters is to validate input,
+  for example here we may want to route via numeric id, followed by a route
+  which will accept other values.
+
+    app.param('uid', /^[0-9]+$/);
+
+    app.get('/user/:uid', function(req, res, next){
+      var uid = req.params.uid;
+      res.send('user ' + uid);
+    });
+
+    app.get('/user/:name', function(req, res, next){
+      var name = req.params.name;
+      res.send('user ' + name);
+    });
+
+## Running Tests
+
+ First install dependencies:
+ 
+     $ npm install -g
+
+ Then run the tests:
+ 
+     $ make test
 
 ## License 
 
