@@ -1,7 +1,7 @@
 
 # express-params
 
-  Express param functions.
+  Express param pre-condition functions.
 
 ## Installation
 
