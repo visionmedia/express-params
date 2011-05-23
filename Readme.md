@@ -3,6 +3,22 @@
 
   Express param functions.
 
+## Installation
+
+    $ npm install express-params
+
+## Usage
+
+ Simply invoke the `extend()` method on an express `HTTPServer` to add this functionality.
+
+```javascript
+var express = require('express')
+  , params = require('express-params')
+  , app = express.createServer();
+
+params.extend(app);
+```
+
 ## RegExp
 
   Regular expressions can be used to extract data from pathname
@@ -50,6 +66,16 @@ app.get('/user/:id', function(req, res, next){
   res.send('typeof ' + typeof id + ' ' + id);
 });
 ```
+
+  The following default logic is applied to test if a return value is valid:
+
+```javascript  
+return null == val
+  || false === val
+  || ('number' == typeof val && isNaN(val));
+```
+
+ It's safe to throw in these functions, as connect's router wraps them in a try/catch block, and they are not asynchronous.
 
 ## Running Tests
 
