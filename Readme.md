@@ -9,28 +9,47 @@
   segments as shown below. When matched `req.params.range` contains
   the capture groups of the `regexp.exec()` call.
 
-    app.param('range', /^(\w+)\.\.(\w+)?$/);
+```javascript
+app.param('range', /^(\w+)\.\.(\w+)?$/);
 
-    app.get('/range/:range', function(req, res, next){
-      var range = req.params.range;
-      res.send('from ' + range[1] + ' to ' + range[2]);
-    });
+app.get('/range/:range', function(req, res, next){
+  var range = req.params.range;
+  res.send('from ' + range[1] + ' to ' + range[2]);
+});
+```
 
   Another use-case for regular expression parameters is to validate input,
   for example here we may want to route via numeric id, followed by a route
   which will accept other values.
 
-    app.param('uid', /^[0-9]+$/);
+```javascript
+app.param('uid', /^[0-9]+$/);
 
-    app.get('/user/:uid', function(req, res, next){
-      var uid = req.params.uid;
-      res.send('user ' + uid);
-    });
+app.get('/user/:uid', function(req, res, next){
+  var uid = req.params.uid;
+  res.send('user ' + uid);
+});
 
-    app.get('/user/:name', function(req, res, next){
-      var name = req.params.name;
-      res.send('user ' + name);
-    });
+app.get('/user/:name', function(req, res, next){
+  var name = req.params.name;
+  res.send('user ' + name);
+});
+```
+
+## Return Value
+
+  Functions with arity < 3 (less than three parameters) are not
+  considered to be middleware-style, and are useful for type coercion.
+  For example below we pass `Number`, a function which accepts a string coercing to a number, alternatively we could use `parseInt` here. The result of `req.params.id` will then be a number, however if we were to issue `GET /user/tj` the result would be `NaN`, which is considered invalid by `exports.invalidParamReturnValue(val)` so `next('route')` is called, ignoring the route.
+
+```javascript
+app.param('id', Number);
+
+app.get('/user/:id', function(req, res, next){
+  var id = req.params.id;
+  res.send('typeof ' + typeof id + ' ' + id);
+});
+```
 
 ## Running Tests
 
