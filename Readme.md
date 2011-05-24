@@ -5,6 +5,8 @@
 
 ## Installation
 
+ Works with Express >= 2.3.7
+
     $ npm install express-params
 
 ## Usage
