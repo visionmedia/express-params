@@ -69,7 +69,7 @@ app.get('/user/:id', function(req, res, next){
 });
 ```
 
-  The following default logic is applied to test if a return value is valid:
+  The following default logic is applied to test if a return value is invalid:
 
 ```javascript  
 return null == val
