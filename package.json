@@ -11,5 +11,4 @@
     , "expresso": "0.7.6"
   }
   , "main": "index"
-  , "engines": { "node": "0.4.x" }
 }
